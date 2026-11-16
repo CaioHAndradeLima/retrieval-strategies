@@ -1,0 +1,46 @@
+name: measure-gate
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  measure-profiles:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        profile: [ci-all-strategies, ci-pipeline-only, ci-retrieval-eval]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build image
+        run: docker build -t retrieval-strategies:ci .
+      - name: Run measure profile
+        run: |
+          mkdir -p reports
+          PROFILE="${{ matrix.profile }}"
+          if [ "${PROFILE}" = "ci-retrieval-eval" ]; then
+            CMD="evaluate-pipeline"
+          else
+            CMD="measure"
+          fi
+          docker run --rm -v "$PWD/reports:/reports" retrieval-strategies:ci \
+            "${CMD}" --profile "${PROFILE}" \
+            --output "/reports/measure-${PROFILE}.json"
+      - name: Quality gate
+        run: |
+          docker run --rm -v "$PWD/reports:/reports" retrieval-strategies:ci \
+            check-measure --profile "${{ matrix.profile }}" \
+            --report "/reports/measure-${{ matrix.profile }}.json"
+
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: |
+          pip install -e .
+          python -m unittest discover -s tests -v

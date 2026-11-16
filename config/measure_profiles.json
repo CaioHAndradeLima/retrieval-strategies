@@ -1,0 +1,49 @@
+{
+  "profiles": {
+    "ci-all-strategies": {
+      "description": "Compare fixed_dense_single, recursive_hybrid_single, semantic_hybrid_tenant, and metadata_filter_partition on golden cases.",
+      "strategies": [
+        "fixed_dense_single",
+        "recursive_hybrid_single",
+        "semantic_hybrid_tenant",
+        "metadata_filter_partition"
+      ],
+      "gates": {
+        "recursive_hybrid_single": {
+          "min_success_rate": 0.85,
+          "min_mean_recall_at_k": 0.5
+        },
+        "metadata_filter_partition": {
+          "min_metadata_filter_accuracy": 0.9,
+          "min_tenant_isolation_rate": 0.9
+        }
+      }
+    },
+    "ci-retrieval-eval": {
+      "description": "Retrieval pipeline scorecard: recall, hybrid quality, metadata filters, tenant partitions, latency p95.",
+      "strategies": ["recursive_hybrid_single"],
+      "gates": {
+        "recursive_hybrid_single": {
+          "min_success_rate": 0.85,
+          "min_mean_recall_at_k": 0.55,
+          "min_hybrid_recall_at_k": 0.5,
+          "max_latency_ms_p95": 50
+        }
+      },
+      "scenario_gates": {
+        "min_hybrid_recall_at_k": 0.5,
+        "min_metadata_filter_accuracy": 0.85,
+        "min_tenant_isolation_rate": 0.85
+      }
+    },
+    "ci-pipeline-only": {
+      "description": "Smoke profile for recursive_hybrid_single only.",
+      "strategies": ["recursive_hybrid_single"],
+      "gates": {
+        "recursive_hybrid_single": {
+          "min_success_rate": 0.75
+        }
+      }
+    }
+  }
+}

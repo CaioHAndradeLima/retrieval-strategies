@@ -1,0 +1,150 @@
+{
+  "cases": [
+    {
+      "id": "rag-hybrid",
+      "query": "hybrid retrieval BM25 dense RRF",
+      "tenant_id": "default",
+      "metadata_filter": {},
+      "tags": [
+        "hybrid"
+      ],
+      "expects": {
+        "relevant_chunk_ids": [
+          "hybrid-search::c0"
+        ],
+        "min_recall_at_k": 0.5
+      }
+    },
+    {
+      "id": "fixed-chunk",
+      "query": "fixed size chunking overlap embedding batch",
+      "tenant_id": "default",
+      "metadata_filter": {},
+      "tags": [
+        "chunking",
+        "dense"
+      ],
+      "expects": {
+        "relevant_chunk_ids": [
+          "chunking-fixed::c0"
+        ],
+        "min_recall_at_k": 0.5,
+        "min_chunks_indexed": 5
+      }
+    },
+    {
+      "id": "recursive-chunk",
+      "query": "recursive paragraph sentence boundaries chunking",
+      "tenant_id": "default",
+      "metadata_filter": {},
+      "tags": [
+        "chunking"
+      ],
+      "expects": {
+        "relevant_chunk_ids": [
+          "chunking-recursive::c0"
+        ],
+        "min_recall_at_k": 0.5
+      }
+    },
+    {
+      "id": "semantic-chunk",
+      "query": "semantic embedding similarity sentence chunking heuristic",
+      "tenant_id": "default",
+      "metadata_filter": {},
+      "tags": [
+        "chunking"
+      ],
+      "expects": {
+        "relevant_chunk_ids": [
+          "chunking-semantic::c0"
+        ],
+        "min_recall_at_k": 0.5
+      }
+    },
+    {
+      "id": "dense-retrieval",
+      "query": "dense vector embedding semantic similarity retrieval",
+      "tenant_id": "default",
+      "metadata_filter": {},
+      "tags": [
+        "dense"
+      ],
+      "expects": {
+        "relevant_chunk_ids": [
+          "dense-only::c0"
+        ],
+        "min_recall_at_k": 0.5
+      }
+    },
+    {
+      "id": "metadata-policy-a",
+      "query": "ninety day log retention customer support tickets",
+      "tenant_id": "tenant_a",
+      "metadata_filter": {
+        "category": "policy"
+      },
+      "tags": [
+        "metadata",
+        "tenant"
+      ],
+      "expects": {
+        "relevant_chunk_ids": [
+          "tenant-a-policy::c0"
+        ],
+        "min_recall_at_k": 1.0,
+        "require_metadata_match": true,
+        "require_tenant_isolation": true
+      }
+    },
+    {
+      "id": "tenant-b-isolation",
+      "query": "encrypted backups EU PII purge tenant_b",
+      "tenant_id": "tenant_b",
+      "metadata_filter": {},
+      "tags": [
+        "tenant"
+      ],
+      "expects": {
+        "relevant_chunk_ids": [
+          "tenant-b-policy::c0"
+        ],
+        "min_recall_at_k": 0.5,
+        "require_tenant_isolation": true
+      }
+    },
+    {
+      "id": "metadata-ops",
+      "query": "metadata filters ACL language category narrow",
+      "tenant_id": "default",
+      "metadata_filter": {
+        "category": "ops"
+      },
+      "tags": [
+        "metadata"
+      ],
+      "expects": {
+        "relevant_chunk_ids": [
+          "metadata-filters::c0"
+        ],
+        "min_recall_at_k": 0.5,
+        "require_metadata_match": true
+      }
+    },
+    {
+      "id": "rag-overview",
+      "query": "retrieval augmented generation knowledge base",
+      "tenant_id": "default",
+      "metadata_filter": {},
+      "tags": [
+        "hybrid"
+      ],
+      "expects": {
+        "relevant_chunk_ids": [
+          "rag-overview::c0"
+        ],
+        "min_recall_at_k": 0.5
+      }
+    }
+  ]
+}

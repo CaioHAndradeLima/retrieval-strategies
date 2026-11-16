@@ -1,0 +1,67 @@
+{
+  "documents": [
+    {
+      "doc_id": "rag-overview",
+      "tenant_id": "default",
+      "title": "RAG overview",
+      "body": "Retrieval augmented generation combines search over a knowledge base with large language model answers. Hybrid retrieval blends dense vectors and sparse BM25 keyword scoring.",
+      "metadata": { "category": "guide", "lang": "en" }
+    },
+    {
+      "doc_id": "chunking-fixed",
+      "tenant_id": "default",
+      "title": "Fixed chunking",
+      "body": "Fixed size chunking splits documents into equal token windows with overlap. It is simple to implement and predictable for embedding batch jobs.",
+      "metadata": { "category": "guide", "lang": "en" }
+    },
+    {
+      "doc_id": "chunking-recursive",
+      "tenant_id": "default",
+      "title": "Recursive chunking",
+      "body": "Recursive chunking respects paragraph and sentence boundaries before applying size limits. It reduces mid-sentence cuts compared to blind fixed windows.",
+      "metadata": { "category": "guide", "lang": "en" }
+    },
+    {
+      "doc_id": "chunking-semantic",
+      "tenant_id": "default",
+      "title": "Semantic heuristic chunking",
+      "body": "Semantic chunking uses embedding similarity drops between sentences as split signals. The heuristic approximates topic shifts without running a full segmentation model.",
+      "metadata": { "category": "guide", "lang": "en" }
+    },
+    {
+      "doc_id": "hybrid-search",
+      "tenant_id": "default",
+      "title": "Hybrid search",
+      "body": "Hybrid search merges dense nearest neighbors with BM25 lexical ranks via reciprocal rank fusion. It improves recall when queries mix proper nouns and paraphrases.",
+      "metadata": { "category": "guide", "lang": "en" }
+    },
+    {
+      "doc_id": "dense-only",
+      "tenant_id": "default",
+      "title": "Dense retrieval",
+      "body": "Dense only retrieval embeds chunks and queries into the same vector space. It excels on semantic similarity but may miss rare entity tokens.",
+      "metadata": { "category": "guide", "lang": "en" }
+    },
+    {
+      "doc_id": "tenant-a-policy",
+      "tenant_id": "tenant_a",
+      "title": "Tenant A retention policy",
+      "body": "Tenant A requires ninety day log retention for customer support tickets. Metadata filters must scope search to tenant_a and category policy.",
+      "metadata": { "category": "policy", "lang": "en", "tenant_label": "a" }
+    },
+    {
+      "doc_id": "tenant-b-policy",
+      "tenant_id": "tenant_b",
+      "title": "Tenant B retention policy",
+      "body": "Tenant B mandates encrypted backups and thirty day PII purge for EU users. Queries for tenant_b must never return tenant_a chunks.",
+      "metadata": { "category": "policy", "lang": "en", "tenant_label": "b" }
+    },
+    {
+      "doc_id": "metadata-filters",
+      "tenant_id": "default",
+      "title": "Metadata filters",
+      "body": "Metadata filters narrow candidates by language category or ACL fields before ranking. They prevent cross-tenant leakage when paired with partition indexes.",
+      "metadata": { "category": "ops", "lang": "en" }
+    }
+  ]
+}
